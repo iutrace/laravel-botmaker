@@ -16,10 +16,14 @@ class WhatsappTemplate
 
     public function __construct(array $attributes = [])
     {
+        $state = $attributes['state'] ?? WhatsappTemplateState::ACCOUNT_PENDING;
+
+        if(!in_array($state, WhatsappTemplateState::allStates())){
+            throw new \Exception("invalid state");
+        }
+
+        $this->state = $state;
         $this->name = $attributes['name'] ?? null;
-        $this->state = in_array($attributes['state'] ?? '', WhatsappTemplateState::allStates())
-            ? $attributes['state']
-            : WhatsappTemplateState::ACCOUNT_PENDING;
         $this->phoneLinesNumbers = $attributes['phoneLinesNumbers'] ?? null;
         $this->botName = $attributes['botName'] ?? null;
         $this->category = $attributes['category'] ?? null;

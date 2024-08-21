@@ -6,7 +6,6 @@ use Iutrace\Botmaker\Models\WhatsappTemplate;
 use Illuminate\Support\Collection;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
 class BotmakerService
@@ -37,6 +36,7 @@ class BotmakerService
 
     public function getWhatsappTemplate(string $templateName)
     {
+
         $response = $this->client->get("/v2.0/whatsapp/templates/$templateName");   
         $data = json_decode($response->getBody()->getContents(), true);
 
