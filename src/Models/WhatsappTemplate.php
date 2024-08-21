@@ -1,7 +1,9 @@
 <?php
 
 namespace Iutrace\Botmaker\Models;
-use Illuminate\Support\Collection;
+
+use Iutrace\Botmaker\Enums\WhatsappTemplateState;
+
 class WhatsappTemplate
 {
     public $name;
@@ -15,7 +17,9 @@ class WhatsappTemplate
     public function __construct(array $attributes = [])
     {
         $this->name = $attributes['name'] ?? null;
-        $this->state = $attributes['state'] ?? null;
+        $this->state = in_array($attributes['state'] ?? '', WhatsappTemplateState::allStates())
+            ? $attributes['state']
+            : WhatsappTemplateState::ACCOUNT_PENDING;
         $this->phoneLinesNumbers = $attributes['phoneLinesNumbers'] ?? null;
         $this->botName = $attributes['botName'] ?? null;
         $this->category = $attributes['category'] ?? null;

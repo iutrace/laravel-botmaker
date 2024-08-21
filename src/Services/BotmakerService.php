@@ -40,7 +40,7 @@ class BotmakerService
         $response = $this->client->get("/v2.0/whatsapp/templates/$templateName");   
         $data = json_decode($response->getBody()->getContents(), true);
 
-        return response()->json(new WhatsappTemplate($data));
+        return new WhatsappTemplate($data);
     }
     
     public function createWhatsappTemplate($data){
@@ -69,7 +69,7 @@ class BotmakerService
             ]);
             $newTemplate = json_decode($response->getBody()->getContents(), true);
 
-            return response()->json(new WhatsappTemplate($newTemplate));
+            return new WhatsappTemplate($newTemplate);
     
         } catch (RequestException $e) {
             throw new \Exception();
