@@ -4,7 +4,7 @@ namespace Iutrace\Botmaker\Services;
 
 use Iutrace\Botmaker\Models\WhatsappTemplate;
 use Illuminate\Support\Collection;
-use GuzzleHttp\Exception\RequestException;
+use Illuminate\Validation\ValidationException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,22 +58,15 @@ class BotmakerService
         ]);
     
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422);
+            throw ValidationException::withMessages($validator->errors()->toArray());
         }
 
-        try {
-            $response = $this->client->post('/v2.0/whatsapp/templates', [
-                'body' => json_encode($data),
-            ]);
-            $newTemplate = json_decode($response->getBody()->getContents(), true);
+        $response = $this->client->post('/v2.0/whatsapp/templates', [
+            'body' => json_encode($data),
+        ]);
+        $newTemplate = json_decode($response->getBody()->getContents(), true);
 
-            return new WhatsappTemplate($newTemplate);
-    
-        } catch (RequestException $e) {
-            throw new \Exception();
-        }
+        return new WhatsappTemplate($newTemplate);
     }
 
     public function deleteWhatsappTemplate(string $templateName){
