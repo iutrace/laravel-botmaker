@@ -1,0 +1,27 @@
+{
+    "name": "iutrace/laravel-botmaker",
+    "homepage": "https://github.com/iutrace/laravel-botmaker",
+    "keywords": [
+        "iutrace",
+        "laravel-botmaker"
+    ],
+    "require": {
+        "illuminate/support": "^8.0",
+        "guzzlehttp/guzzle": "^7.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Iutrace\\Botmaker\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Iutrace\\Botmaker\\Providers\\BotmakerServiceProvider"
+            ],
+            "aliases": {
+                "Botmaker": "Iutrace\\Botmaker\\Facades\\Botmaker"
+            }
+        }
+    }
+}
