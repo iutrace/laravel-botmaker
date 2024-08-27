@@ -34,17 +34,16 @@ class BotmakerService
         });
     }
 
-    public function getWhatsappTemplate(string $templateName)
+    public function getWhatsappTemplate(string $templateName): WhatsappTemplate
     {
-
         $response = $this->client->get("/v2.0/whatsapp/templates/$templateName");   
         $data = json_decode($response->getBody()->getContents(), true);
 
         return new WhatsappTemplate($data);
     }
     
-    public function createWhatsappTemplate($data){
-
+    public function createWhatsappTemplate($data): WhatsappTemplate
+    {
         $data['phoneLineNumber'] = config('botmaker.whatsapp_number');
         
         $validator = Validator::make($data, [
@@ -69,8 +68,8 @@ class BotmakerService
         return new WhatsappTemplate($newTemplate);
     }
 
-    public function deleteWhatsappTemplate(string $templateName){
-
+    public function deleteWhatsappTemplate(string $templateName)
+    {
         $response = $this->client->delete("/v2.0/whatsapp/templates/$templateName");   
         return $response->getBody();
     }
