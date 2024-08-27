@@ -3,8 +3,9 @@
 namespace Iutrace\Botmaker\Models;
 
 use Iutrace\Botmaker\Enums\WhatsappTemplateState;
+use Illuminate\Database\Eloquent\Model;
 
-class WhatsappTemplate
+class WhatsappTemplate extends Model
 {
     public $name;
     public $state;
@@ -29,5 +30,15 @@ class WhatsappTemplate
         $this->category = $attributes['category'] ?? null;
         $this->locale = $attributes['locale'] ?? null;
         $this->body = $attributes['body'] ?? null;
+    }
+
+    /**
+     * Get the parent model that owns the template.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function model()
+    {
+        return $this->morphTo();
     }
 }

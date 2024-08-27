@@ -31,7 +31,11 @@ class BotmakerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/botmaker.php' => config_path('botmaker.php'),
-        ]);
+            __DIR__.'/../../config/botmaker.php' => config_path('botmaker.php'),
+        ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../../database/migrations/2024_08_26_120000_create_whatsapp_template_model_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_whatsapp_template_model_table.php'),
+        ], 'migrations');
     }
 }
