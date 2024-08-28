@@ -15,7 +15,7 @@ class BotmakerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/botmaker.php', 'botmaker'
+            __DIR__.'/../../config/botmaker.php', 'botmaker'
         );
 
         $this->app->singleton('botmaker', function ($app) {
