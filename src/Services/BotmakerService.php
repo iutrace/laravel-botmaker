@@ -3,6 +3,7 @@
 namespace Iutrace\Botmaker\Services;
 
 use Iutrace\Botmaker\Models\WhatsappTemplate;
+use Iutrace\Botmaker\Enums\WhatsappTemplateState;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use GuzzleHttp\Client;
@@ -30,7 +31,16 @@ class BotmakerService
         $data = json_decode($response->getBody()->getContents(), true);
 
         return collect($data['items'])->map(function ($template) {
-            return new WhatsappTemplate($template);
+
+            return new WhatsappTemplate([
+                'state' => WhatsappTemplateState::getState($template['state']),
+                'name' => $template['name'] ?? null,
+                'phoneLinesNumbers' => $template['phoneLinesNumbers'] ?? null,
+                'botName' => $template['botName'] ?? null,
+                'category' => $template['category'] ?? null,
+                'locale' => $template['locale'] ?? null,
+                'body' => $template['body'] ?? null,
+            ]);
         });
     }
 
@@ -70,7 +80,7 @@ class BotmakerService
 
     public function deleteWhatsappTemplate(string $templateName)
     {
-        $response = $this->client->delete("/v2.0/whatsapp/templates/$templateName");   
+        $response = $this->client->delete("/v2.0/whatsapp/templates/$templateName"); 
         return $response->getBody();
     }
 }

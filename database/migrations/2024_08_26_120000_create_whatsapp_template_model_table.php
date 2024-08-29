@@ -18,9 +18,8 @@ class CreateWhatsappTemplateModelTable extends Migration
             $table->string('model_type');
             $table->unsignedBigInteger('model_id');
             $table->string('template_id');
+            $table->index(['model_type', 'model_id']);
             $table->timestamps();
-
-            $table->index(['model_type', 'model_id']); // Índice para consultas más rápidas
         });
     }
 
