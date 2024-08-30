@@ -11,8 +11,8 @@ class WhatsappTemplate extends Model
     protected $fillable = [
         'state',
         'name',
-        'phoneLinesNumbers',
-        'botName',
+        'phone_lines_numbers',
+        'bot_name',
         'category',
         'locale',
         'body',

@@ -35,11 +35,11 @@ class BotmakerService
             return new WhatsappTemplate([
                 'state' => WhatsappTemplateState::getState($template['state']),
                 'name' => $template['name'] ?? null,
-                'phoneLinesNumbers' => $template['phoneLinesNumbers'] ?? null,
-                'botName' => $template['botName'] ?? null,
+                'phone_lines_numbers' => json_encode($template['phoneLinesNumbers']),
+                'bot_name' => $template['botName'] ?? null,
                 'category' => $template['category'] ?? null,
                 'locale' => $template['locale'] ?? null,
-                'body' => $template['body'] ?? null,
+                'body' => json_encode($template['body']),
             ]);
         });
     }
@@ -47,21 +47,28 @@ class BotmakerService
     public function getWhatsappTemplate(string $templateName): WhatsappTemplate
     {
         $response = $this->client->get("/v2.0/whatsapp/templates/$templateName");   
-        $data = json_decode($response->getBody()->getContents(), true);
+        $template = json_decode($response->getBody()->getContents(), true);
 
-        return new WhatsappTemplate($data);
+        return new WhatsappTemplate([
+            'state' => WhatsappTemplateState::getState($template['state']),
+            'name' => $template['name'] ?? null,
+            'phone_lines_numbers' => json_encode($template['phoneLinesNumbers']),
+            'bot_name' => $template['botName'] ?? null,
+            'category' => $template['category'] ?? null,
+            'locale' => $template['locale'] ?? null,
+            'body' => json_encode($template['body']),
+        ]);
     }
     
     public function createWhatsappTemplate($data): WhatsappTemplate
     {
-        $data['phoneLineNumber'] = config('botmaker.whatsapp_number');
+        $data['phone_lines_numbers'] ?? config('botmaker.whatsapp_number');
         
         $validator = Validator::make($data, [
             'name' => 'required|string',
-            'phoneLineNumber' => 'required|string|regex:/^\d+$/',
-            'botName' => 'required|string',
+            'phone_lines_numbers' => 'required|string|regex:/^\d+$/',
+            'bot_name' => 'required|string',
             'category' => 'required|string',
-            'optInImage' => 'required|url',
             'locale' => 'required|string',
             'body.text' => 'required|string',
         ]);
