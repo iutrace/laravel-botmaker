@@ -14,10 +14,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class UpdateWhatsappTemplatesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    
+     
     public function handle()
     {
-        $pendingTemplates = WhatsappTemplate::where('status', WhatsappTemplateState::ACCOUNT_PENDING)->get();
+        $pendingTemplates = WhatsappTemplate::where('state', WhatsappTemplateState::ACCOUNT_PENDING)->get();
 
         foreach ($pendingTemplates as $template) {
             try {
