@@ -6,8 +6,12 @@
         "laravel-botmaker"
     ],
     "require": {
-        "illuminate/support": "^8.0",
-        "guzzlehttp/guzzle": "^7.0.1"
+        "illuminate/support": "^8.83",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "illuminate/database": "^8.83",
+        "illuminate/console": "^8.83",
+        "illuminate/bus": "^8.83",
+        "illuminate/queue": "^8.83"
     },
     "autoload": {
         "psr-4": {

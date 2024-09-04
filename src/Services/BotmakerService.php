@@ -3,6 +3,7 @@
 namespace Iutrace\Botmaker\Services;
 
 use Iutrace\Botmaker\Models\WhatsappTemplate;
+use Iutrace\Botmaker\Enums\WhatsappTemplateState;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use GuzzleHttp\Client;
@@ -30,28 +31,44 @@ class BotmakerService
         $data = json_decode($response->getBody()->getContents(), true);
 
         return collect($data['items'])->map(function ($template) {
-            return new WhatsappTemplate($template);
+
+            return new WhatsappTemplate([
+                'state' => WhatsappTemplateState::getState($template['state']),
+                'name' => $template['name'] ?? null,
+                'phone_lines_numbers' => json_encode($template['phoneLinesNumbers']),
+                'bot_name' => $template['botName'] ?? null,
+                'category' => $template['category'] ?? null,
+                'locale' => $template['locale'] ?? null,
+                'body' => json_encode($template['body']),
+            ]);
         });
     }
 
     public function getWhatsappTemplate(string $templateName): WhatsappTemplate
     {
         $response = $this->client->get("/v2.0/whatsapp/templates/$templateName");   
-        $data = json_decode($response->getBody()->getContents(), true);
+        $template = json_decode($response->getBody()->getContents(), true);
 
-        return new WhatsappTemplate($data);
+        return new WhatsappTemplate([
+            'state' => WhatsappTemplateState::getState($template['state']),
+            'name' => $template['name'] ?? null,
+            'phone_lines_numbers' => json_encode($template['phoneLinesNumbers']),
+            'bot_name' => $template['botName'] ?? null,
+            'category' => $template['category'] ?? null,
+            'locale' => $template['locale'] ?? null,
+            'body' => json_encode($template['body']),
+        ]);
     }
     
     public function createWhatsappTemplate($data): WhatsappTemplate
     {
-        $data['phoneLineNumber'] = config('botmaker.whatsapp_number');
+        $data['phone_lines_numbers'] ?? config('botmaker.whatsapp_number');
         
         $validator = Validator::make($data, [
             'name' => 'required|string',
-            'phoneLineNumber' => 'required|string|regex:/^\d+$/',
-            'botName' => 'required|string',
+            'phone_lines_numbers' => 'required|string|regex:/^\d+$/',
+            'bot_name' => 'required|string',
             'category' => 'required|string',
-            'optInImage' => 'required|url',
             'locale' => 'required|string',
             'body.text' => 'required|string',
         ]);
@@ -70,7 +87,7 @@ class BotmakerService
 
     public function deleteWhatsappTemplate(string $templateName)
     {
-        $response = $this->client->delete("/v2.0/whatsapp/templates/$templateName");   
+        $response = $this->client->delete("/v2.0/whatsapp/templates/$templateName"); 
         return $response->getBody();
     }
 }

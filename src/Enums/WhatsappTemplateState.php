@@ -18,4 +18,15 @@ class WhatsappTemplateState
             self::BOTMAKER_PENDING,
         ];
     }
+
+    public static function getState($state){
+
+        $state ?? self::ACCOUNT_PENDING;
+
+        if(!in_array($state, self::allStates())){
+            throw new \Exception("invalid state");
+        }
+
+        return $state;
+    }
 }
