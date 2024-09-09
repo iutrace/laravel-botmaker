@@ -35,11 +35,11 @@ class BotmakerService
             return new WhatsappTemplate([
                 'state' => WhatsappTemplateState::getState($template['state']),
                 'name' => $template['name'] ?? null,
-                'phone_lines_numbers' => json_encode($template['phoneLinesNumbers']),
+                'phone_lines_numbers' => $template['phoneLinesNumbers'][0],
                 'bot_name' => $template['botName'] ?? null,
                 'category' => $template['category'] ?? null,
                 'locale' => $template['locale'] ?? null,
-                'body' => json_encode($template['body']),
+                'body' => trim($template['body']['text'], '"'),
             ]);
         });
     }
@@ -52,11 +52,11 @@ class BotmakerService
         return new WhatsappTemplate([
             'state' => WhatsappTemplateState::getState($template['state']),
             'name' => $template['name'] ?? null,
-            'phone_lines_numbers' => json_encode($template['phoneLinesNumbers']),
+            'phone_lines_numbers' => $template['phoneLinesNumbers'],
             'bot_name' => $template['botName'] ?? null,
             'category' => $template['category'] ?? null,
             'locale' => $template['locale'] ?? null,
-            'body' => json_encode($template['body']),
+            'body' => trim($template['body']['text'], '"'),
         ]);
     }
     
