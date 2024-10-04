@@ -17,7 +17,7 @@ class CreateWhatsappTemplatesTable extends Migration
             $table->id();
             $table->string('state')->default('ACCOUNT_PENDING');
             $table->string('name')->nullable();
-            $table->text('phone_lines_numbers')->nullable();
+            $table->text('phone_line_number')->nullable();
             $table->string('bot_name')->nullable();
             $table->string('category')->nullable();
             $table->string('locale')->nullable();

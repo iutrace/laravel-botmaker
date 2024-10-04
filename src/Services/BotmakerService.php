@@ -35,7 +35,7 @@ class BotmakerService
             return new WhatsappTemplate([
                 'state' => WhatsappTemplateState::getState($template['state']),
                 'name' => $template['name'] ?? null,
-                'phone_lines_numbers' => $template['phoneLinesNumbers'][0],
+                'phone_line_number' => $template['phoneLinesNumbers'][0],
                 'bot_name' => $template['botName'] ?? null,
                 'category' => $template['category'] ?? null,
                 'locale' => $template['locale'] ?? null,
@@ -52,7 +52,7 @@ class BotmakerService
         return new WhatsappTemplate([
             'state' => WhatsappTemplateState::getState($template['state']),
             'name' => $template['name'] ?? null,
-            'phone_lines_numbers' => $template['phoneLinesNumbers'],
+            'phone_lines_numbers' => $template['phoneLinesNumbers'][0],
             'bot_name' => $template['botName'] ?? null,
             'category' => $template['category'] ?? null,
             'locale' => $template['locale'] ?? null,
@@ -60,29 +60,23 @@ class BotmakerService
         ]);
     }
     
-    public function createWhatsappTemplate($data): WhatsappTemplate
-    {
-        $data['phone_lines_numbers'] ?? config('botmaker.whatsapp_number');
-        
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'phone_lines_numbers' => 'required|string|regex:/^\d+$/',
-            'bot_name' => 'required|string',
-            'category' => 'required|string',
-            'locale' => 'required|string',
-            'body.text' => 'required|string',
-        ]);
-    
-        if ($validator->fails()) {
-            throw ValidationException::withMessages($validator->errors()->toArray());
-        }
-
+    public function createWhatsappTemplate($data)
+    {            
         $response = $this->client->post('/v2.0/whatsapp/templates', [
             'body' => json_encode($data),
         ]);
+
         $newTemplate = json_decode($response->getBody()->getContents(), true);
 
-        return new WhatsappTemplate($newTemplate);
+        return new WhatsappTemplate([
+            'state' => WhatsappTemplateState::getState($newTemplate['state']),
+            'name' => $newTemplate['name'] ?? null,
+            'phone_line_number' => $newTemplate['phoneLinesNumbers'][0],
+            'bot_name' => $newTemplate['botName'] ?? null,
+            'category' => $newTemplate['category'] ?? null,
+            'locale' => $newTemplate['locale'] ?? null,
+            'body' => trim($newTemplate['body']['text'], '"'),
+        ]);
     }
 
     public function deleteWhatsappTemplate(string $templateName)
