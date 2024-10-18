@@ -8,10 +8,11 @@
     "require": {
         "illuminate/support": "^8.83",
         "guzzlehttp/guzzle": "^7.0.1",
-        "illuminate/database": "^8.83",
+        "illuminate/database": "*",
         "illuminate/console": "^8.83",
         "illuminate/bus": "^8.83",
-        "illuminate/queue": "^8.83"
+        "illuminate/queue": "^8.83",
+        "laravel/framework": "^8.83"
     },
     "autoload": {
         "psr-4": {

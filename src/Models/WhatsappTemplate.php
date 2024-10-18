@@ -3,6 +3,7 @@
 namespace Iutrace\Botmaker\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 
 class WhatsappTemplate extends Model
 {
@@ -26,5 +27,28 @@ class WhatsappTemplate extends Model
     public function model()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * El método "boot" del modelo.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($whatsappTemplate) {
+            Event::dispatch(new \App\Events\WhatsappTemplate\Created($whatsappTemplate));
+        });
+
+        static::updated(function ($whatsappTemplate) {
+            Event::dispatch(new \App\Events\WhatsappTemplate\Updated($whatsappTemplate));
+        });
+
+        static::deleted(function ($whatsappTemplate) {
+            Event::dispatch(new \App\Events\WhatsappTemplate\Deleted($whatsappTemplate));
+        });
+
     }
 }
