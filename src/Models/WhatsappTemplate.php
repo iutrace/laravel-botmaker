@@ -30,7 +30,7 @@ class WhatsappTemplate extends Model
     }
 
     /**
-     * El método "boot" del modelo.
+     * The "boot" method of the model.
      *
      * @return void
      */
