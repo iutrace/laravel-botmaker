@@ -17,14 +17,14 @@ class UpdateWhatsappTemplatesJob implements ShouldQueue
      
     public function handle()
     {
-        $pendingTemplates = WhatsappTemplate::where('state', WhatsappTemplateState::ACCOUNT_PENDING)->get();
+        $pendingTemplates = WhatsappTemplate::where('state', WhatsappTemplateState::BOTMAKER_PENDING)->get();
 
         foreach ($pendingTemplates as $template) {
             try {
 
                 $botmakerTemplate = Botmaker::getWhatsappTemplate($template->name);
 
-                if($botmakerTemplate->state != WhatsappTemplateState::ACCOUNT_PENDING){
+                if($botmakerTemplate->state != WhatsappTemplateState::BOTMAKER_PENDING){
 
                     $template->state = WhatsappTemplateState::getState($botmakerTemplate->state);
                     $template->save();
