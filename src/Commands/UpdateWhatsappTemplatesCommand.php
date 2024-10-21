@@ -7,7 +7,7 @@ use Iutrace\Botmaker\Jobs\UpdateWhatsappTemplatesJob;
 
 class UpdateWhatsappTemplatesCommand extends Command
 {
-    protected $signature = 'botmaker:update-whatsap-templates';
+    protected $signature = 'botmaker:update-whatsapp-templates';
 
     protected $description = 'Update the states of WhatsApp templates by fetching changes from the API';
 

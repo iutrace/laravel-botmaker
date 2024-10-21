@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Events\WhatsappTemplate;
+namespace Iutrace\Botmaker\Events\WhatsappTemplate;
 
-use Iutrace\Botmaker\Models\WhatsappTemplate;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Iutrace\Botmaker\Models\WhatsappTemplate;
 
 class Updated
 {
-    use Dispatchable;
+    use Dispatchable, SerializesModels;
 
     public $whatsappTemplate;
 
