@@ -9,7 +9,7 @@ class WhatsappTemplateState
     const REJECTED           = 'REJECTED';
     const BOTMAKER_PENDING   = 'BOTMAKER_PENDING';
 
-    public static function allStates()
+    public static function allStates(): array
     {
         return [
             self::ACCOUNT_PENDING,
@@ -19,12 +19,12 @@ class WhatsappTemplateState
         ];
     }
 
-    public static function getState($state){
+    public static function getState(?string $state): string
+    {
+        $state = $state ?? self::ACCOUNT_PENDING;
 
-        $state ?? self::ACCOUNT_PENDING;
-
-        if(!in_array($state, self::allStates())){
-            throw new \Exception("invalid state");
+        if (!in_array($state, self::allStates())) {
+            throw new \Exception("invalid state: {$state}");
         }
 
         return $state;

@@ -22,34 +22,32 @@ class WhatsappTemplate extends Model
         'body',
     ];
 
+    protected $casts = [
+        'phone_lines_numbers' => 'array',
+    ];
+
     /**
      * Get the parent model that owns the template.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function model()
+    public function model(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }
 
     /**
-     * The "boot" method of the model.
-     *
-     * @return void
+     * The "booted" method of the model.
      */
-    protected static function boot()
+    protected static function booted(): void
     {
-        parent::boot();
-
-        static::created(function ($whatsappTemplate) {
+        static::created(function (WhatsappTemplate $whatsappTemplate) {
             Event::dispatch(new Created($whatsappTemplate));
         });
 
-        static::updated(function ($whatsappTemplate) {
+        static::updated(function (WhatsappTemplate $whatsappTemplate) {
             Event::dispatch(new Updated($whatsappTemplate));
         });
 
-        static::deleted(function ($whatsappTemplate) {
+        static::deleted(function (WhatsappTemplate $whatsappTemplate) {
             Event::dispatch(new Deleted($whatsappTemplate));
         });
     }

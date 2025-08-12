@@ -10,16 +10,10 @@ class Created
 {
     use Dispatchable, SerializesModels;
 
-    public $whatsappTemplate;
-
     /**
-     * Crea una nueva instancia del evento.
-     *
-     * @param  WhatsappTemplate  $whatsappTemplate
-     * @return void
+     * Create a new event instance.
      */
-    public function __construct(WhatsappTemplate $whatsappTemplate)
-    {
-        $this->whatsappTemplate = $whatsappTemplate;
-    }
+    public function __construct(
+        public readonly WhatsappTemplate $whatsappTemplate
+    ) {}
 }

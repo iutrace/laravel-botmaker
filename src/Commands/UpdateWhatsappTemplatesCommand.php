@@ -11,7 +11,7 @@ class UpdateWhatsappTemplatesCommand extends Command
 
     protected $description = 'Update the states of WhatsApp templates by fetching changes from the API';
 
-    public function handle()
+    public function handle(): int
     {
         UpdateWhatsappTemplatesJob::dispatch();
 

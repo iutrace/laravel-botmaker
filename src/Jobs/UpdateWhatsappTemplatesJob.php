@@ -15,7 +15,7 @@ class UpdateWhatsappTemplatesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
      
-    public function handle()
+    public function handle(): void
     {
         $pendingTemplates = WhatsappTemplate::where('state', WhatsappTemplateState::BOTMAKER_PENDING)->get();
 

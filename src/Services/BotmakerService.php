@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class BotmakerService
 {
-    public $client;
+    public Client $client;
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class BotmakerService
         ]);
     }
     
-    public function createWhatsappTemplate($data)
+    public function createWhatsappTemplate(array $data): WhatsappTemplate
     {            
         $response = $this->client->post('/v2.0/whatsapp/templates', [
             'body' => json_encode($data),
@@ -79,9 +79,9 @@ class BotmakerService
         ]);
     }
 
-    public function deleteWhatsappTemplate(string $templateName)
+    public function deleteWhatsappTemplate(string $templateName): string
     {
         $response = $this->client->delete("/v2.0/whatsapp/templates/$templateName"); 
-        return $response->getBody();
+        return $response->getBody()->getContents();
     }
 }

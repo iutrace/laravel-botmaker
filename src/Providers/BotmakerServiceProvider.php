@@ -10,10 +10,8 @@ class BotmakerServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../../config/botmaker.php', 'botmaker'
@@ -30,10 +28,8 @@ class BotmakerServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../../config/botmaker.php' => config_path('botmaker.php'),

@@ -10,10 +10,10 @@ class Deleted
 {
     use Dispatchable, SerializesModels;
 
-    public $whatsappTemplate;
-
-    public function __construct(WhatsappTemplate $whatsappTemplate)
-    {
-        $this->whatsappTemplate = $whatsappTemplate;
-    }
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public readonly WhatsappTemplate $whatsappTemplate
+    ) {}
 }
